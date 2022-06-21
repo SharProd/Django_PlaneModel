@@ -75,3 +75,7 @@ font-size: 13px;}
 .dropdown:hover .dropdown-content {display: block;position: fixed;}
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+
+
+.carD_style{width: 500px;}

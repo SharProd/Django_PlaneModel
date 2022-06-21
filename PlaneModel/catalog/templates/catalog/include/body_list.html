@@ -1,3 +1,4 @@
+
 <div class="conteiner-fluid" style="padding-top:10px;">
     <div class="row">
         <div class="col-md-2">
@@ -5,18 +6,21 @@
           <div class="list-group list_category">
             <div class="dropdown">
               {% if i.level == 0 %}
-              <div class="item_category"><a type="button" class="" href="#">{{i.title}}</a></div>
+              <div class="item_category"><a type="button" class="" href="/catalog/{{i.slug}}_{{i.id}}">{{i.title}}</a></div>
               {% endif %}
               <div class="dropdown-content">
                 {% for j in category %}
                 {% if j.tree_id == i.tree_id and j.level != i.level %}
-                <a href="#" class="dropdown-content-item">{{j.title}}</a>
+                <a href="#{{j.slug}}" class="dropdown-content-item">{{j.title}}</a>
                 {% endif %}
                 {% endfor %}
               </div>
             </div>
           </div>
           {% endfor %}
+        </div>
+        <div class="col-md-8">
+           {% include 'catalog/include/card_list.html' %}
         </div>
     </div>
 </div>

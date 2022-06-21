@@ -1,1 +1,22 @@
-it is card list
+<!--{% load static %}-->
+<div class="card-deck"  >
+    {% for i in product %}
+    <div class="conteiner" >
+        <div class=" card card-style "  >
+            {% for im in images %}
+                {% if im.item_id == i.id %}
+                <img src="{{im.image.url}}" alt="image" class="card-img-top card_image" >
+                {% endif %}
+                {% endfor %}
+            <div class="card-body ">
+                <h4 class="card-title">{{i.title}}</h4>
+                <p class="card-text">{{i.info}}</p>
+            </div>
+            <div class="card-footer" style="text-align:right">
+                <h6>{{i.price}} BYN</h6>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
