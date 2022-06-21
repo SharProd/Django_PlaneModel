@@ -1,0 +1,18 @@
+{% load user_tags  %}
+{% get_category as category %}
+   {% for i in category %}
+    <div class="list-group list_category">
+      <div class="dropdown">
+        {% if i.level == 0 %}
+        <div class="item_category"><a type="button" class="" href="{% url 'category' i.slug i.id %}">{{i.title}}</a></div>
+        {% endif %}
+        <div class="dropdown-content">
+          {% for j in category %}
+          {% if j.tree_id == i.tree_id and j.level != i.level %}
+          <a href="{% url 'category' j.slug j.id %}" class="dropdown-content-item">{{j.title}}</a>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
