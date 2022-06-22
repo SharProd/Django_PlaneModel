@@ -54,6 +54,8 @@ class ItemByCatalog(ListView):
 def home_page(request):
     return render(request, 'catalog/home_page.html',context={'title':'Главная'})
 
+
+#создание запроса на данные для страницы товара
 class Item(ItemByCatalog):
     template_name = "catalog/item_page.html"
     context_object_name = 'product'
@@ -62,6 +64,12 @@ class Item(ItemByCatalog):
         context = super(ItemByCatalog, self).get_context_data(**kwargs)
         context['title'] = CatalogItem.objects.get(pk = self.kwargs['pk'])
         context['images'] = ImageItem.objects.filter(item_id = self.kwargs['pk'])
+        images = []
+        # создание списка с url изображений вместо списка обьектовб,создание единичного элемента Главная фотография
+        for i in context['images']:
+            images.append(i.image)
+        context['main_image'] = images[0]
+        context['other_image'] = images[1:]
         return context
 
     def get_queryset(self):
