@@ -11,8 +11,8 @@
                 {% endfor %}
             <div class="card-body ">
                 <a class="card-text-style" href="{% url 'item_page'  i.pk %}">{{i.title}}</a>
-                <br>
-                <p class="card-text">{{i.info}}</p>
+                <hr>
+                <p >{{i.info}}</p>
             </div>
             <div class="card-footer card-style-footer" >
                 {% if i.is_published %}

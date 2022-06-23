@@ -1,11 +1,13 @@
+
+
 body{
     background-color: whitesmoke;
 }
 
 
 a{ 
-	color: black;
-	font-size: 18;
+    color: black;
+    font-size: 18;
     text-decoration: none;}
 
 
@@ -46,7 +48,7 @@ font-size: 13px;}
 
 .dropdown {
     position: static;
-    display: inline-block;
+    display: block;
 }
 
 .dropdown-content {
@@ -72,9 +74,6 @@ font-size: 13px;}
 
 .dropdown-content a:hover {background-color: #ddd;}
 
-.dropdown:hover .dropdown-content {display: block;position: fixed;}
+.dropdown:hover .dropdown-content {display:block;position: fixed;}
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
-
-
-
