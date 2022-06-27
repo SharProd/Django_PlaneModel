@@ -5,14 +5,14 @@
       <div class="dropdown">
         {% if i.level == 0 %}
         <div class="item_category">
-          <a type="button" class="" href="{% url 'category' i.slug i.id %}">{{i.title}}</a>
+          <a type="button" class="" href="{% url 'main_category' i.slug i.tree_id %}">{{i.title}}</a>
         </div>
         {% endif %}
         <div class="dropdown-content">
             <div class="dropdown">
                  {% for j in category %}
                   {% if j.tree_id == i.tree_id and j.level != i.level and j.level == 1 %}
-                <a type="button" href="{% url 'category' j.slug j.id %}" class="dropdown-content-item">{{j.title}}</a>
+                <a type="button" href="{% url 'category' i.slug i.tree_id j.pk %}" class="dropdown-content-item">{{j.title}}</a>
                 {% endif %}
                 {% endfor %}
             </div>

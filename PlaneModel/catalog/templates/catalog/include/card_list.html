@@ -10,7 +10,7 @@
                 {% endif %}
                 {% endfor %}
             <div class="card-body ">
-                <a class="card-text-style" href="{% url 'item_page'  i.pk %}">{{i.title}}</a>
+                <a class="card-text-style" href="{% url 'item_page' i.pk %}">{{i.title}}</a>
                 <hr>
                 <p >{{i.info}}</p>
             </div>

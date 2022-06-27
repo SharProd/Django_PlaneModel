@@ -22,18 +22,19 @@ from .models import *
 #             'product': product,
 #             }
 #     return render(request, 'catalog/index.html', context=data)
+
+
+
+
 class CatalogListView(ListView):
 
-    model = Category
+    model = CatalogItem
     template_name = "catalog/index.html"
-    context_object_name = "category"
+    context_object_name = "product"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Каталог'
-        context['product'] = CatalogItem.objects.all()
-        # context['images'] =ImageItem.objects.all()
-        # print(len(context['images']))
         return context
 
 
@@ -43,9 +44,8 @@ class ItemByCatalog(ListView):
     context_object_name = "product"
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(ItemByCatalog, self).get_context_data(**kwargs)
-        context['title'] = Category.objects.get(slug = self.kwargs['slug'])
-        # context['images'] = ImageItem.objects.all()
+        context = super().get_context_data(**kwargs)
+        # context['title'] = Category.objects.get(id__pk = self.kwargs['pk'])
         return context
 
     def get_queryset(self):
@@ -74,3 +74,18 @@ class Item(ItemByCatalog):
 
     def get_queryset(self):
         return CatalogItem.objects.get(pk=self.kwargs['pk'])
+
+
+
+class ItemInMainCategory(ListView):
+    model = CatalogItem
+    template_name = "catalog/index.html"
+    context_object_name = "product"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = Category.objects.get(slug=self.kwargs['slug'])
+        return context
+
+    def get_queryset(self):
+        return CatalogItem.objects.filter(category__tree_id=self.kwargs['tree_id'])
