@@ -61,9 +61,10 @@ class Item(ItemByCatalog):
     context_object_name = 'product'
 
     def get_context_data(self, *, object_list=None, **kwargs):
+
         context = super(ItemByCatalog, self).get_context_data(**kwargs)
         # context['title'] = CatalogItem.objects.get(pk = self.kwargs['pk'])
-        context['images'] = ImageItem.objects.filter(item_id = self.kwargs['pk'])
+        context['images'] = ImageItem.objects.filter(item_id= self.kwargs['pk'])
         images = []
         # создание списка с url изображений вместо списка обьектовб,создание единичного элемента Главная фотография
         for i in context['images']:
@@ -73,8 +74,9 @@ class Item(ItemByCatalog):
         return context
 
     def get_queryset(self):
-        print(self.__dict__)
-        return CatalogItem.objects.get(slug=self.kwargs['item_slug'])
+        return CatalogItem.objects.get(pk=self.kwargs['pk'])
+
+
 
 
 
@@ -86,7 +88,7 @@ class ItemInMainCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = Category.objects.get(slug=self.kwargs['slug'])
+        # context['title'] = Category.objects.get(slug=self.kwargs['slug'])
         return context
 
     def get_queryset(self):
