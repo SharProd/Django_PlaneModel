@@ -1,1 +1,28 @@
-it is card list
+{% load user_tags  %}
+{% main_image_in_product as images %}
+<div class="card-deck"  >
+    {% for i in product %}
+    <div class="conteiner" >
+        <div class=" card card-style "  >
+            {% for im in images %}
+                {% if im.item_id == i.id %}
+                <img src="{{im.image.url}}" alt="image" class="card-img-top card_image" >
+                {% endif %}
+                {% endfor %}
+            <div class="card-body ">
+                <a class="card-text-style" href="{% url 'item_page' i.pk %}">{{i.title}}</a>
+                <hr>
+                <p >{{i.info}}</p>
+            </div>
+            <div class="card-footer card-style-footer" >
+                {% if i.is_published %}
+                <a style="float:left">в наличии</a>
+                {% else %}
+                <a style="float:left">нет в наличии</a>
+                {% endif %}
+                <a style="float:right">{{i.price}} BYN</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

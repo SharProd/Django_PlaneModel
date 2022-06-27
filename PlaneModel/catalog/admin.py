@@ -7,6 +7,8 @@ class ImageItemAdmin(admin.ModelAdmin):
 
 class CatalogItemAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
+    list_display = ('id','title','category_id')
+    list_display_links = ('id','title')
 
 
 admin.site.register(CatalogItem, CatalogItemAdmin)
