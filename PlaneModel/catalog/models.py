@@ -25,6 +25,10 @@ class CatalogItem(models.Model):
         verbose_name = 'product'
         verbose_name_plural = 'products'
 
+    def get_obcolute_url(self):
+        print(self.__dict__)
+        return reverse('item_page', kwargs={'item_slug': self.slug, 'title': self.title, 'pk': self.pk})
+
 
 class Category(MPTTModel):
     title = models.CharField(max_length=50, unique=True, verbose_name='name')
