@@ -1,29 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView,CreateView
 from .models import *
-
-
-
-# def catalog_view(request):
-#     category = Category.objects.all()
-#     product = CatalogItem.objects.all()
-#     images = ImageItem.objects.all()
-#     data = {'category': category,
-#             'product': product,
-#             'images': images
-#             }
-#     return render(request,'catalog/index.html',context=data)
-#
-# def select_category(request,slug,id):
-#     category = Category.objects.all()
-#     product = CatalogItem.objects.all()
-#
-#     data = {'category': category,
-#             'product': product,
-#             }
-#     return render(request, 'catalog/index.html', context=data)
-
-
+from .forms import CreateProduct
 
 
 class CatalogListView(ListView):
@@ -45,7 +23,7 @@ class ItemByCatalog(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['title'] = Category.objects.get(id__pk = self.kwargs['pk'])
+        context['title'] = Category.objects.get(id = self.kwargs['pk'])
         return context
 
     def get_queryset(self):
@@ -61,9 +39,8 @@ class Item(ItemByCatalog):
     context_object_name = 'product'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-
         context = super(ItemByCatalog, self).get_context_data(**kwargs)
-        # context['title'] = CatalogItem.objects.get(pk = self.kwargs['pk'])
+        context['title'] = CatalogItem.objects.get(pk = self.kwargs['pk'])
         context['images'] = ImageItem.objects.filter(item_id= self.kwargs['pk'])
         images = []
         # создание списка с url изображений вместо списка обьектовб,создание единичного элемента Главная фотография
@@ -88,8 +65,13 @@ class ItemInMainCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['title'] = Category.objects.get(slug=self.kwargs['slug'])
+        context['title'] = Category.objects.get(slug=self.kwargs['slug'])
         return context
 
     def get_queryset(self):
         return CatalogItem.objects.filter(category__tree_id=self.kwargs['tree_id'])
+
+
+class AddProductView(CreateView):
+    form_class = CreateProduct
+    template_name = 'catalog/add_product.html'

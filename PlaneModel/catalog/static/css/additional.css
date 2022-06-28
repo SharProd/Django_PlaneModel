@@ -15,8 +15,9 @@ img{width: 30px;}
 
 nav{background-color: #c8c6cfaf;
     height: 60px;
+    font-size: 16px;
+    vertical-align: bottom;
     }
-
 
 .list_category{
     font-size: 13px;
