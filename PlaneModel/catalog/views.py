@@ -1,7 +1,13 @@
-from django.shortcuts import render
-from django.views.generic import ListView,CreateView
+from django.shortcuts import render,redirect
+from django.views.generic import ListView
 from .models import *
-from .forms import CreateProduct
+from .forms import ProductForm,ImageProductForm
+from .models import ImageItem
+from django.forms import modelformset_factory
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
+
 
 
 class CatalogListView(ListView):
@@ -9,6 +15,7 @@ class CatalogListView(ListView):
     model = CatalogItem
     template_name = "catalog/index.html"
     context_object_name = "product"
+    ordering = ['-publication_date']
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -20,6 +27,8 @@ class ItemByCatalog(ListView):
     model = CatalogItem
     template_name = "catalog/index.html"
     context_object_name = "product"
+    ordering = ['-publication_date']
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,7 +39,8 @@ class ItemByCatalog(ListView):
         return CatalogItem.objects.filter(category_id=self.kwargs['pk'])
 
 def home_page(request):
-    return render(request, 'catalog/home_page.html',context={'title':'Главная'})
+    context = {'title':'Главная'}
+    return render(request, 'catalog/home_page.html',context=context)
 
 
 #создание запроса на данные для страницы товара
@@ -62,6 +72,7 @@ class ItemInMainCategory(ListView):
     model = CatalogItem
     template_name = "catalog/index.html"
     context_object_name = "product"
+    ordering = ['-publication_date']
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -72,6 +83,37 @@ class ItemInMainCategory(ListView):
         return CatalogItem.objects.filter(category__tree_id=self.kwargs['tree_id'])
 
 
-class AddProductView(CreateView):
-    form_class = CreateProduct
-    template_name = 'catalog/add_product.html'
+@login_required
+def add_product(request):
+    ImageFormSet = modelformset_factory(ImageItem,
+                                        form=ImageProductForm, extra=3)
+    #'extra' means the number of photos that you can upload   ^
+    if request.method == 'POST':
+
+        productForm = ProductForm(request.POST)
+        formset = ImageFormSet(request.POST, request.FILES,
+                               queryset=ImageItem.objects.none())
+
+
+        if productForm.is_valid() and formset.is_valid():
+            product_form = productForm.save(commit=False)
+            product_form.user = request.user
+            product_form.save()
+
+            for form in formset.cleaned_data:
+                #this helps to not crash if the user
+                #do not upload all the photos
+                if form:
+                    image = form['image']
+                    photo = ImageItem(item_id=product_form.pk, image=image)
+                    photo.save()
+            messages.success(request,
+                             "Yeeew, check it out on the home page!")
+            return redirect("catalog")
+        else:
+            print(productForm.errors, formset.errors)
+    else:
+        product_form = ProductForm()
+        formset = ImageFormSet(queryset=ImageItem.objects.none())
+    return render(request, 'catalog/add_product.html',
+                  {'product_form': product_form, 'formset': formset})

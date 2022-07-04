@@ -5,10 +5,14 @@ from django_mptt_admin.admin import DjangoMpttAdmin
 class ImageItemAdmin(admin.ModelAdmin):
     list_display = ('item_id',)
 
+class ProductImageInline(admin.StackedInline):
+    model = ImageItem
+
 class CatalogItemAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     list_display = ('id','title','category_id')
     list_display_links = ('id','title')
+    inlines =[ProductImageInline]
 
 
 admin.site.register(CatalogItem, CatalogItemAdmin)

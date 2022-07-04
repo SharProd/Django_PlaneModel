@@ -3,6 +3,7 @@ import datetime
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -17,12 +18,15 @@ class CatalogItem(models.Model):
     edit_date = models.DateTimeField(auto_now_add=True, verbose_name="date of edit product")
     category = TreeForeignKey('Category', on_delete=models.PROTECT,null=True, related_name='posts', verbose_name='category')
 
-
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('item_page',kwargs={'item_slug':self.slug,'pk':self.pk})
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(CatalogItem, self).save(*args, **kwargs)
 
 
 
@@ -56,6 +60,9 @@ class Category(MPTTModel):
 class ImageItem(models.Model):
     image = models.ImageField(upload_to='image/%Y/%m/%d/',verbose_name='image')
     item = models.ForeignKey(CatalogItem,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.item_id)
 
     class Meta:
         verbose_name = 'image'
