@@ -1,11 +1,22 @@
+
+
 body{
-    background-color: whitesmoke;
+  background-color: whitesmoke;
+ 
+  min-height:100rem%
 }
 
 
+.footer {
+  position: absolute;
+
+}
+
+
+
 a{ 
-	color: black;
-	font-size: 18;
+    color: black;
+    font-size: 18;
     text-decoration: none;}
 
 
@@ -13,8 +24,8 @@ img{width: 30px;}
 
 nav{background-color: #c8c6cfaf;
     height: 60px;
+    font-size: 16px;
     }
-
 
 .list_category{
     font-size: 13px;
@@ -27,7 +38,7 @@ nav{background-color: #c8c6cfaf;
     text-decoration: none;
     color: black;
     padding-right: 10px;
-    padding-left: 10px;
+    padding-left: 5px;
     padding-bottom: 5px;}
 
 .item_category: hover{color: blue;text-decoration: overline;}
@@ -46,7 +57,7 @@ font-size: 13px;}
 
 .dropdown {
     position: static;
-    display: inline-block;
+    display: block;
 }
 
 .dropdown-content {
@@ -72,10 +83,6 @@ font-size: 13px;}
 
 .dropdown-content a:hover {background-color: #ddd;}
 
-.dropdown:hover .dropdown-content {display: block;position: fixed;}
+.dropdown:hover .dropdown-content {display:block;position: fixed;}
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
-
-
-
-.carD_style{width: 500px;}

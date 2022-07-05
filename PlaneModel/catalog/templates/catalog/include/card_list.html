@@ -1,4 +1,5 @@
-
+{% load user_tags  %}
+{% main_image_in_product as images %}
 <div class="card-deck"  >
     {% for i in product %}
     <div class="conteiner" >
@@ -9,12 +10,17 @@
                 {% endif %}
                 {% endfor %}
             <div class="card-body ">
-                <h4 class="card-title">{{i.title}}</h4>
-                <p class="card-text">{{i.info}}</p>
+                <a class="card-text-style" href="{{i.get_absolute_url}}">{{i.title}}</a>
+                <hr>
+                <p >{{i.info}}</p>
             </div>
-            <div class="card-footer" style="text-align:right">
-                <h6>{{i.price}} BYN</h6>
-
+            <div class="card-footer card-style-footer" >
+                {% if i.is_published %}
+                <a style="float:left">в наличии</a>
+                {% else %}
+                <a style="float:left">нет в наличии</a>
+                {% endif %}
+                <a style="float:right">{{i.price}} BYN</a>
             </div>
         </div>
     </div>
