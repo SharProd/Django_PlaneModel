@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catalog.apps.CatalogConfig',
+    'account.apps.AccountConfig',
     'mptt',
     'django_mptt_admin',
 ]

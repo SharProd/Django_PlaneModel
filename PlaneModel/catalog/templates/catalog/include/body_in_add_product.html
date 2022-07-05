@@ -5,7 +5,7 @@
         </div>
         <div class="col-md-8" style="margin-left:50px;margin-top:20px">
             <div class="container" style="padding-bottom:50px">
-                <form id="post_form" method="post" action="" enctype="multipart/form-data">
+                <form id="post_form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                        {% for field in product_form %}
                         <div class="form-group">

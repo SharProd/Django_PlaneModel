@@ -1,8 +1,17 @@
 
 
 body{
-    background-color: whitesmoke;
+  background-color: whitesmoke;
+ 
+  min-height:100rem%
 }
+
+
+.footer {
+  position: absolute;
+
+}
+
 
 
 a{ 
@@ -16,7 +25,6 @@ img{width: 30px;}
 nav{background-color: #c8c6cfaf;
     height: 60px;
     font-size: 16px;
-    vertical-align: bottom;
     }
 
 .list_category{

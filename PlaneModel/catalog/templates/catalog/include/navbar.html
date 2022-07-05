@@ -15,21 +15,37 @@
       <div class="nav-item">
         <a class="nav-link" href="{% url 'catalog' %}" >Каталог</a>
       </div>
+      {% if user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="#">Рассчитать модель</a>
       </li>
+      {% endif %}
+      {% if user.is_superuser %}
       <li>
         <a class="nav-link" href="{% url 'add_product' %}" >
           добавить товар
         </a>
       </li>
+      {% endif %}
     </ul>
     <form class="form-inline my-2 my-lg-0">
+      {% if user.is_authenticated %}
       <div>
-        <a class="nav-link" href="#log_in"  >
-          <img src="/static/icon/signin1_89283.png" >
-        </a>
+        <a class="nav-link" href="#user_page"  >{{user.username}}<a/>
       </div>
+      |
+       <div>
+        <a class="nav-link" href="{% url 'exit' %}"  >выход<a/>
+      </div>
+      {% else %}
+      <div>
+        <a class="nav-link" href="{% url 'register' %}"  >регистрация<a/>
+      </div>
+      |
+      <div>
+        <a class="nav-link" href="{% url 'login' %}"  >вход<a/>
+      </div>
+      {% endif %}
        <div>
         <a class="nav-link" href="#корзина"  >
           <img src="/static/icon/onlineshoppingcart_85781.png" >

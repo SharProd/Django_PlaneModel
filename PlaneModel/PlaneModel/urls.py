@@ -23,7 +23,9 @@ from catalog.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalog/',include('catalog.urls')),
-    path('',home_page,name = 'home')
+    path('',home_page,name = 'home'),
+    path('auth/',include('account.urls')),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
