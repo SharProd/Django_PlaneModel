@@ -14,11 +14,15 @@
                 <!-- The slideshow -->
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="{{main_image.url}}" alt="Los Angeles">
+                        {% if main_image %}
+                        <img src="{{main_image.url}}" alt="main_image">
+                        {% else %}
+                        <img src="/static/icon/no_photo.png" alt="main_image">
+                        {% endif %}
                     </div>
                     {% for im in other_image %}
                     <div class="carousel-item ">
-                        <img src="{{im.url}}" alt="Chicago">
+                        <img src="{{im.url}}" alt="other_image">
                     </div>
                     {% endfor %}
                 </div>
