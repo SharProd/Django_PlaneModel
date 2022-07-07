@@ -1,5 +1,5 @@
 from django import template
-from catalog.models import *
+from catalog.models import ImageItem,CatalogItem,Category
 
 register = template.Library()
 
@@ -23,3 +23,7 @@ def main_image_in_product():
             images_item_id.append(i.item_id)
     return images_only
 
+@register.simple_tag()
+def id_product():
+    id_set = list(map(lambda item: item.id, CatalogItem.objects.all()))
+    return id_set

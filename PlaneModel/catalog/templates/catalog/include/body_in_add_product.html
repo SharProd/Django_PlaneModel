@@ -3,6 +3,7 @@
         <div class="col-md-2">
             {% include 'catalog/include/sidebar.html' %}
         </div>
+        {% if user.is_superuser %}
         <div class="col-md-8" style="margin-left:50px;margin-top:20px">
             <div class="container" style="padding-bottom:50px">
                 <form id="post_form" method="post" enctype="multipart/form-data">
@@ -23,66 +24,8 @@
                     {% endfor %}
                     <button class="btn" type="submit" >create</button>
                 </form>
-<!--                <form action="" method="post">-->
-<!--                   {% csrf_token %}-->
-<!--                    {% for field in form %}-->
-<!--                    <div class="form-group">-->
-<!--                        {{field.label}}-->
-<!--                        {{ field }}-->
-<!--                    </div>-->
-<!--                    {% endfor %}-->
-<!--                    <button class="btn" type="submit" >create</button>-->
-<!--                </form>-->
-
-<!--                <form action="{% url 'add_product' %}" method="post">-->
-<!--                    {% csrf_token %}-->
-<!--                    {{ form.non_field_errors }}-->
-<!--                    <div class="fieldWrapper">-->
-<!--                        {{ form.title.errors }}-->
-<!--                        <label for="{{ form.title.id_for_label }}">Название:</label>-->
-<!--                        {{ form.title }}-->
-<!--                    </div>-->
-<!--                    <div class="fieldWrapper">-->
-<!--                        {{ form.info.errors }}-->
-<!--                        <label for="{{ form.info.id_for_label }}">Доп.инфо:</label>-->
-<!--                        {{ form.info }}-->
-<!--                    </div>-->
-<!--                    <div class="fieldWrapper">-->
-<!--                        {{ form.price.errors }}-->
-<!--                        <label for="{{ form.price.id_for_label }}">Цена:</label>-->
-<!--                        {{ form.price }}-->
-<!--                    </div>-->
-<!--                    <div class="fieldWrapper">-->
-<!--                        {{ form.weight.errors }}-->
-<!--                        <label for="{{ form.weight.id_for_label }}">Вес:</label>-->
-<!--                        {{ form.weight }}-->
-<!--                    </div>-->
-<!--                    <div class="fieldWrapper">-->
-<!--                        {{ form.is_published.errors }}-->
-<!--                        <label for="{{ form.is_published.id_for_label }}">Опубликовано?:</label>-->
-<!--                        {{ form.is_published }}-->
-<!--                    </div>-->
-<!--                    <div class="fieldWrapper">-->
-<!--                        {{ form.category.errors }}-->
-<!--                        <label for="{{ form.category.id_for_label }}">Категория:</label>-->
-<!--                        {{ form.category }}-->
-<!--                    </div>-->
-<!--                    <button type="submit" class="btn btn-primary" value="sumbit">add product</button>-->
-<!--                </form>-->
-
-<!--                    title-->
-
-<!--                    info-->
-
-<!--                    price-->
-
-<!--                    weight-->
-
-<!--                    is_published-->
-
-<!--                    category-->
-
             </div>
         </div>
+        {% endif %}
     </div>
 </div>

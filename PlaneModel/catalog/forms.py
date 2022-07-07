@@ -8,6 +8,7 @@ class ProductForm(forms.ModelForm):
         model = CatalogItem
         fields = ['title','info','price','weight','is_published','category']
 
+
         widgets = {'title':forms.TextInput(attrs={'class':'form-control',"placeholder": "Название"}),
                    'info':forms.Textarea(attrs={'class':'form-control'}),
                    }

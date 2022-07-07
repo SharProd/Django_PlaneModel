@@ -1,14 +1,26 @@
 
+<div align="center">
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+        <div class="alert alert-danger">
+        {{message}}
+        </div>
+    {% else %}
+        <div class="alert alert-success">
+        {{message}}
+        </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    <div/>
 <div align="center" style="padding-top: 50px;">
+    <h3>Регистрация</h3>
+    <br>
     <form id="form" method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
-        {% for field in user_form %}
-        <div class="form-group">
-            {{field.label}}
-            <br>
-            {{ field }}
-        </div>
-        {% endfor %}
-        <button class="btn" type="submit">Register</button>
+        <div style="width:300px">{{user_form.as_p}}</div>
+
+        <button class="btn" type="submit">зарегистрироваться</button>
     </form>
 </div>

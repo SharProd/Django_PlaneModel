@@ -8,10 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 
-
-
 class CatalogListView(ListView):
-
     model = CatalogItem
     template_name = "catalog/index.html"
     context_object_name = "product"
@@ -56,16 +53,13 @@ class Item(ItemByCatalog):
         # создание списка с url изображений вместо списка обьектовб,создание единичного элемента Главная фотография
         for i in context['images']:
             images.append(i.image)
-        context['main_image'] = images[0]
-        context['other_image'] = images[1:]
+        if images:
+            context['main_image'] = images[0]
+            context['other_image'] = images[1:]
         return context
 
     def get_queryset(self):
         return CatalogItem.objects.get(pk=self.kwargs['pk'])
-
-
-
-
 
 
 class ItemInMainCategory(ListView):
@@ -87,7 +81,6 @@ class ItemInMainCategory(ListView):
 def add_product(request):
     ImageFormSet = modelformset_factory(ImageItem,
                                         form=ImageProductForm, extra=3)
-    #'extra' means the number of photos that you can upload   ^
     if request.method == 'POST':
 
         productForm = ProductForm(request.POST)
@@ -99,14 +92,19 @@ def add_product(request):
             product_form = productForm.save(commit=False)
             product_form.user = request.user
             product_form.save()
-
             for form in formset.cleaned_data:
-                #this helps to not crash if the user
-                #do not upload all the photos
                 if form:
                     image = form['image']
-                    photo = ImageItem(item_id=product_form.pk, image=image)
-                    photo.save()
+                    print(f'form["image"] - {image}')
+                    print(f'form - {form}')
+                else:
+                    image = 'static/no_photo.png'
+                photo = ImageItem(item_id=product_form.pk, image=image)
+                photo.save()
+                messages.success(request,
+                                 "Yeeew, check it out on the home page!")
+                return redirect("catalog")
+
             messages.success(request,
                              "Yeeew, check it out on the home page!")
             return redirect("catalog")

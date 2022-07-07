@@ -1,10 +1,9 @@
-import datetime
 
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
-from django.utils.text import slugify
+# from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
+from pytils.translit import slugify
 
 
 class CatalogItem(models.Model):
@@ -21,13 +20,12 @@ class CatalogItem(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse('item_page',kwargs={'item_slug':self.slug,'pk':self.pk})
-
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(CatalogItem, self).save(*args, **kwargs)
+        return super(CatalogItem, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('item_page',kwargs={'item_slug':self.slug,'pk':self.pk})
 
 
     class Meta:

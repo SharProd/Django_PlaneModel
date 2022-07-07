@@ -2,36 +2,23 @@ from django.shortcuts import render, redirect
 from django.http.response import HttpResponse
 from .forms import UserRegistrationForm,LoginForm
 from django.contrib.auth import authenticate, login, logout
-
-
-def log_in(request):
-    return render(request,'account/log_in.html',context={'title':'вход'})
-
-# def log_in(request):
-#   username = request.POST['username']
-#   password = request.POST['password']
-#   user = authenticate(username=username, password=password)
-#   if user is not None:
-#     login(request, user)
-#     return redirect('home')
-#   else:
-#       return redirect('catalog')
+from django.contrib import messages
 
 
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-            # Create a new user object but avoid saving it yet
-            new_user = user_form.save(commit=False)
-            # Set the chosen password
-            new_user.set_password(user_form.cleaned_data['password'])
-            # Save the User object
-            new_user.save()
+            user_form.save()
+            cd = user_form.cleaned_data
+            user = authenticate(username=cd['username'], password=cd['password1'])
+            login(request, user)
             return redirect("catalog")
+        else:
+            messages.error(request,'Ошибка регистрации')
     else:
         user_form = UserRegistrationForm()
-    return render(request, 'account/register.html', {'user_form': user_form})
+    return render(request, 'account/register.html', {'user_form': user_form,'title':'Регистрация'})
 
 
 
@@ -44,14 +31,15 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
+                    messages.success(request,f'{user.username}, добро пожаловать!!!')
                     return redirect('home')
                 else:
-                    return HttpResponse('Disabled account')
+                    messages.error(request,'Нет такого пользователя')
             else:
-                return HttpResponse('Invalid login')
+                messages.error(request,"неправильный логин или пароль")
     else:
         form = LoginForm()
-    return render(request, 'account/log_in.html', {'form': form})
+    return render(request, 'account/log_in.html', {'form': form,'title':'Вход'})
 
 
 def user_logout(request):
