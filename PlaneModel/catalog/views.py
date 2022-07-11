@@ -6,6 +6,7 @@ from .models import ImageItem
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q
 
 
 class CatalogListView(ListView):
@@ -19,6 +20,12 @@ class CatalogListView(ListView):
         context['title'] = 'Каталог'
         return context
 
+    def get_queryset(self):
+        search = self.request.GET.get('search')
+        if search:
+            return CatalogItem.objects.filter(title__startswith=search)
+        else:
+            return  CatalogItem.objects.all()
 
 class ItemByCatalog(ListView):
     model = CatalogItem
@@ -114,4 +121,23 @@ def add_product(request):
         product_form = ProductForm()
         formset = ImageFormSet(queryset=ImageItem.objects.none())
     return render(request, 'catalog/add_product.html',
-                  {'product_form': product_form, 'formset': formset})
+                  {'product_form': product_form, 'formset': formset,'title':'добавление'})
+
+
+class SearchProduct(ListView):
+    model = CatalogItem
+    template_name = "catalog/index.html"
+    context_object_name = "product"
+    ordering = ['-publication_date']
+
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context['title'] = Category.objects.get(id = self.kwargs['pk'])
+        print(f'класс поиска работает')
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        print(query)
+        # return CatalogItem.objects.filter(category_id=self.kwargs['pk'])

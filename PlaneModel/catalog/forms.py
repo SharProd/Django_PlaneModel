@@ -20,3 +20,8 @@ class ImageProductForm(forms.ModelForm):
         model = ImageItem
         fields = ('image',)
 
+
+
+
+
+

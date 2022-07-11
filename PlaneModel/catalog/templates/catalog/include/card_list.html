@@ -15,6 +15,9 @@
                 <a class="card-text-style" href="{{i.get_absolute_url}}">{{i.title}}</a>
                 <hr>
                 <p >{{i.info|truncatewords:5}}</p>
+                {% if user.is_superuser %}
+                <a>редактировать</a> | <a>удалить</a>
+                {% endif %}
             </div>
             <div class="card-footer card-style-footer" >
                 {% if i.is_published %}
