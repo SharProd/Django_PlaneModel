@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import CatalogItem, Category, ImageItem
+from .models import CatalogItem, Category, ImageItem,BasketProduct
 from django_mptt_admin.admin import DjangoMpttAdmin
+
 
 class ImageItemAdmin(admin.ModelAdmin):
     list_display = ('item_id',)
@@ -15,13 +16,17 @@ class CatalogItemAdmin(admin.ModelAdmin):
     inlines =[ProductImageInline]
 
 
-admin.site.register(CatalogItem, CatalogItemAdmin)
-
-
 class CategoryAdmin(DjangoMpttAdmin):
     prepopulated_fields = {"slug": ("title",)}
     search_fields = ('title',)
     list_filter = ('title',)
 
+
+class BasketProductAdmin(admin.ModelAdmin):
+    list_display = ('user','product')
+
+
+admin.site.register(BasketProduct, BasketProductAdmin)
+admin.site.register(CatalogItem, CatalogItemAdmin)
 admin.site.register(ImageItem, ImageItemAdmin)
 admin.site.register(Category, CategoryAdmin)

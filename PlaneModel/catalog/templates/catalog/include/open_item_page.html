@@ -35,12 +35,15 @@
                 <a class="carousel-control-next carousel_button" href="#demo" data-slide="next">
                     <span class="carousel-control-next-icon"></span>
                 </a>
+                {{product.info}}
             </div>
         </div>
         <div class="col-md-4">
             <p>артикул: {{product.slug}}</p>
             <p>есть в наличии</p>
             <p>цена: {{product.price}} BYN</p>
+            <button class="btn btn-success">добавить в корзину</button>
+            <button class="btn btn-success">купить</button>
         </div>
     </div>
 </div>
