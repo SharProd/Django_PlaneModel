@@ -1,4 +1,4 @@
-
+{% load user_tags %}
 <nav class="navbar navbar-expand"  >
   <a class="navbar-brand"  >Plane model</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,10 +47,7 @@
       </div>
       {% endif %}
        <div>
-        <a class="nav-link" href="#корзина"  >
-          <span class="badge badge-dark">{{basketproduct|lenght}}</span>
-          <img src="/static/icon/onlineshoppingcart_85781.png" >
-        </a>
+        {% include 'catalog/basket/basket.html' %}
       </div>
       <form action="{% url 'search_product' %}" method="get">
       <input class="form-control" name="search" type="text" placeholder="Поиск">

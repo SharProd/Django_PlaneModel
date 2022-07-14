@@ -1,3 +1,4 @@
+from django.http import HttpRequest
 from django.shortcuts import render,redirect
 from django.views.generic import ListView
 from .models import *
@@ -6,7 +7,8 @@ from .models import ImageItem
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Q
+
+baskets = BasketProduct.objects.all()
 
 class ItemInCategoryMixin(ListView):
     model = CatalogItem
@@ -19,6 +21,7 @@ class CatalogListView(ItemInCategoryMixin):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Каталог'
+        context['baskets'] = BasketProduct.objects.all()
         return context
 
     def get_queryset(self):
@@ -33,13 +36,14 @@ class ItemByCatalog(ItemInCategoryMixin):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = Category.objects.get(id = self.kwargs['pk'])
+        context['baskets'] = BasketProduct.objects.all()
         return context
 
     def get_queryset(self):
         return CatalogItem.objects.filter(category_id=self.kwargs['pk'])
 
 def home_page(request):
-    context = {'title':'Главная'}
+    context = {'title':'Главная','baskets':baskets}
     return render(request, 'catalog/home_page.html',context=context)
 
 
@@ -52,6 +56,7 @@ class Item(ItemByCatalog):
         context = super(ItemByCatalog, self).get_context_data(**kwargs)
         context['title'] = CatalogItem.objects.get(pk = self.kwargs['pk'])
         context['images'] = ImageItem.objects.filter(item_id= self.kwargs['pk'])
+        context['baskets'] = BasketProduct.objects.all()
         images = []
         # создание списка с url изображений вместо списка обьектовб,создание единичного элемента Главная фотография
         for i in context['images']:
@@ -66,9 +71,11 @@ class Item(ItemByCatalog):
 
 
 class ItemInMainCategory(ItemInCategoryMixin):
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = Category.objects.get(slug=self.kwargs['slug'])
+        context['baskets'] = BasketProduct.objects.all()
         return context
 
     def get_queryset(self):
@@ -112,17 +119,14 @@ def add_product(request):
         product_form = ProductForm()
         formset = ImageFormSet(queryset=ImageItem.objects.none())
     return render(request, 'catalog/add_product.html',
-                  {'product_form': product_form, 'formset': formset,'title':'добавление'})
+                  {'product_form': product_form, 'formset': formset,'title':'добавление','baskets':baskets})
 
 
 class SearchProduct(ItemInCategoryMixin):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['title'] = Category.objects.get(id = self.kwargs['pk'])
-        print(f'класс поиска работает')
         return context
 
     def get_queryset(self):
         query = self.request.GET.get('search')
-        print(query)
         # return CatalogItem.objects.filter(category_id=self.kwargs['pk'])
