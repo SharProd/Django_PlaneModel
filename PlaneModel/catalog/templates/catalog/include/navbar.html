@@ -1,4 +1,4 @@
-
+{% load user_tags %}
 <nav class="navbar navbar-expand"  >
   <a class="navbar-brand"  >Plane model</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,12 +47,11 @@
       </div>
       {% endif %}
        <div>
-        <a class="nav-link" href="#корзина"  >
-          <img src="/static/icon/onlineshoppingcart_85781.png" >
-        </a>
+        {% include 'catalog/basket/basket.html' %}
       </div>
-      <input class="form-control mr-sm-2" type="search" placeholder="Что хотите найти?" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+      <form action="{% url 'search_product' %}" method="get">
+      <input class="form-control" name="search" type="text" placeholder="Поиск">
+      </form>
     </form>
   </div>
 </nav>

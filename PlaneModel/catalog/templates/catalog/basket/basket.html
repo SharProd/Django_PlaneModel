@@ -1,0 +1,39 @@
+{% load user_tags %}
+<a class="nav-link" href="#корзина"  data-toggle="modal" data-target="#myModal" >
+           <!-- The Modal -->
+          <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Корзина</h4>
+                  <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                  {% basket user  as b%}
+                  <ul>
+                    {% for i in b %}
+                    <li>{{i.title}} {{i.price}}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    вся сумма:
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          {% if baskets %}
+          <span class="badge badge-dark">
+            {% len_baskets user %}
+          </span>
+          {% endif %}
+          <img src="/static/icon/onlineshoppingcart_85781.png" >
+        </a>
