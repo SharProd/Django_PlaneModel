@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'mptt',
     'django_mptt_admin',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
